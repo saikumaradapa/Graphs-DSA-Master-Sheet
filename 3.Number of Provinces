@@ -1,0 +1,31 @@
+class Solution:
+    
+    def dfs(self, node, visited, graph):
+        visited[node] = 1
+        for adjNode in graph[node]:
+            if not visited[adjNode]:
+                self.dfs(adjNode, visited, graph)
+    
+    def numProvinces(self, adj, V):
+        graph = [[] for _ in range(V)]
+        
+        for u in range(V):
+            for v in range(V):
+                if u != v and adj[u][v] :
+                    graph[u].append(v)
+                    
+        visited = [0] * V
+        cnt = 0
+        
+        for i in range(V):
+            if not visited[i]:
+                cnt += 1
+                self.dfs(i, visited, graph)
+        
+        return cnt 
+
+''' time complexity : O(V + 2E)
+    space complexity : O(V)
+'''
+
+problem link : https://www.geeksforgeeks.org/problems/number-of-provinces/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number_of_provinces
