@@ -1,0 +1,27 @@
+# gfg problem 
+
+class Solution:
+    
+    def dfs(self, node, visited, res, adj):
+        visited[node] = 1
+        res.append(node)
+        
+        for adjNode in adj[node]:
+            if not visited[adjNode]:
+                self.dfs(adjNode, visited, res, adj)
+    
+    def dfsOfGraph(self, V, adj):
+        visited = [0] * V 
+        res = []
+        
+        self.dfs(0, visited, res, adj)
+        return res
+
+
+
+''' time complexity : O(V+ 2E)
+    space complexity : O(V)
+'''
+
+
+problem link : https://www.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=dfs_of_graph
