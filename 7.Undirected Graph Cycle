@@ -1,0 +1,55 @@
+from typing import List
+
+class Solution:
+    def dfs(self, visited: List[int], adj: List[List[int]], node: int, parent: int) -> bool:
+        """
+        Depth First Search to detect a cycle in an undirected graph.
+        
+        Args:
+        visited: List to keep track of visited nodes.
+        adj: Adjacency list of the graph.
+        node: Current node being visited.
+        parent: Parent node of the current node.
+        
+        Returns:
+        bool: True if a cycle is detected, False otherwise.
+        """
+        if not visited[node]:
+            visited[node] = 1  # Mark the current node as visited
+            
+            for adjNode in adj[node]:
+                if visited[adjNode]:
+                    if adjNode != parent:
+                        # A visited node that is not the parent indicates a cycle
+                        return True
+                else:
+                    if self.dfs(visited, adj, adjNode, node):
+                        # Recursively visit the adjacent node
+                        return True
+        
+        return False
+    
+    def isCycle(self, V: int, adj: List[List[int]]) -> bool:
+        """
+        Check if the undirected graph contains a cycle.
+        
+        Args:
+        V: Number of vertices in the graph.
+        adj: Adjacency list of the graph.
+        
+        Returns:
+        bool: True if the graph contains a cycle, False otherwise.
+        """
+        visited = [0] * V  # Initialize the visited list
+        
+        for i in range(V):
+            if not visited[i]:  # Start DFS from each unvisited node
+                if self.dfs(visited, adj, i, -1):
+                    return True  # Cycle detected
+        
+        return False  # No cycle detected
+
+
+''' time complexity : O( V + 2E)
+    space complexity : O(V)
+'''
