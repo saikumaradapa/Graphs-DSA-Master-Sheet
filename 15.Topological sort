@@ -1,0 +1,25 @@
+problem link : https://www.geeksforgeeks.org/problems/topological-sort/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=topological-sort
+
+
+class Solution:
+    def dfs(self, node, visited, stack, adj):
+        visited[node] = 1 
+        
+        for adjNode in adj[node]:
+            if not visited[adjNode]:
+                self.dfs(adjNode, visited, stack, adj)
+        stack.append(node)
+    
+    def topoSort(self, V, adj):
+        stack = []
+        visited = [0] * V 
+        
+        for i in range(V):
+            if not visited[i]:
+                self.dfs(i, visited, stack, adj)
+        
+        return stack[::-1]
+
+''' time complexity : O(V + 2E)
+    space complexity : O(V) 
+'''        
