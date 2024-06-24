@@ -30,3 +30,13 @@ class Solution:
 ''' time complexity : O(V + 2E)
     space complexity : O(V)
 '''
+
+
+####################################################################################################################################################################################################
+
+--> It can also solved with help of Kahn's Algorithm 
+
+1. reverse edges 
+2. apply kahn's algo 
+3. you will get the result . 
+
