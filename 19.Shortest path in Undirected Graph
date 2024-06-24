@@ -1,0 +1,35 @@
+problem link : https://www.geeksforgeeks.org/problems/shortest-path-in-undirected-graph-having-unit-distance/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=shortest-path-in-undirected-graph-having-unit-distance
+
+from collections import deque
+class Solution:
+    def shortestPath(self, edges, n, m, src):
+        adj = [[] for _ in range(n)]
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+        
+        
+        dist = [float('inf') for _ in range(n)]
+        dist[src] = 0
+        
+        q = deque([src])
+        
+        while q:
+            node = q.popleft()
+            
+            for adjNode in adj[node]:
+                if dist[adjNode] > dist[node] + 1:
+                    q.append(adjNode)
+                    dist[adjNode] = dist[node] + 1
+        
+        res = [-1] * n
+        for i in range(n):
+            if dist[i] != float('inf'):
+                res[i] = dist[i]
+        
+        return res
+
+
+''' time complexity : O(V + 2E)
+    space complexity : O(V)
+'''
