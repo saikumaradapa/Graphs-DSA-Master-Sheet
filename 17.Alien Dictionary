@@ -1,0 +1,51 @@
+problem link : https://www.geeksforgeeks.org/problems/alien-dictionary/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=alien-dictionary
+
+from collections import deque 
+class Solution:
+    def findOrder(self,alien_dict, N, K):
+        adj = [[] for _ in range(K)]
+        
+        for i in range(N-1):
+            word1 = alien_dict[i]
+            word2 = alien_dict[i+1]
+            
+            j = 0
+            while j < len(word1) and j < len(word2) and word1[j] == word2[j]:
+                j += 1
+            
+            if j < len(word1) and j < len(word2)  :
+                ch1 = word1[j]
+                ch2 = word2[j]
+                adj[ord(ch1)-ord('a')].append(ord(ch2)-ord('a'))
+
+        # topo sort with kahn's indegree algorithm 
+        
+        indegree = [0] * K 
+        for u in range(K):
+            for v in adj[u]:
+                indegree[v] += 1
+        
+        q = deque([])
+        for i in range(K):
+            if indegree[i] == 0:
+                q.append(i)
+        
+        
+        res = []
+        while q:
+            node = q.popleft()
+            res.append(node)
+            
+            for adjNode in adj[node]:
+                indegree[adjNode] -= 1 
+                if not indegree[adjNode]:
+                    q.append(adjNode)
+        
+        
+        order = [chr(num + ord('a')) for num in res]
+        return order  
+
+
+''' time complexity : O(V + 2E)
+    space complexity : O(V) 
+'''        
