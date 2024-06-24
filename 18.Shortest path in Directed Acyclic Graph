@@ -1,0 +1,44 @@
+problem link : https://www.geeksforgeeks.org/problems/shortest-path-in-undirected-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=direct-acyclic-graph
+
+
+1. find the stack in topo sort 
+2. relaxation of edges with distances 
+
+from typing import List
+class Solution:
+    def shortestPath(self, n : int, m : int, edges : List[List[int]]) -> List[int]:
+        adj = [[] for _ in range(n)]
+        for u, v, w in edges:
+            adj[u].append((v, w))
+        
+        def dfs(node):
+            visited[node] = 1
+            for curr in adj[node]:
+                if not visited[curr[0]]:
+                    dfs(curr[0])
+            stack.append(node)
+        
+        visited = [0] * n
+        stack = []
+        
+        for i in range(n):
+            if not visited[i]:
+                dfs(i)
+        
+        dist = [float('inf') for _ in range(n)]
+        dist[0] = 0
+        while stack:
+            node = stack.pop(-1)
+            for curr in adj[node]:
+                dist[curr[0]] = min(dist[curr[0]], dist[node] + curr[1])
+            
+        res = [-1] * n 
+        for i in range(n):
+            if dist[i] != float('inf'):
+                res[i] = dist[i]
+        
+        return res
+
+''' time complexity : O(V + 2E)        
+    space complexity : O(V)
+'''
