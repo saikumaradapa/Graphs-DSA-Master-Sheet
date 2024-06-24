@@ -1,0 +1,32 @@
+problem link : https://www.geeksforgeeks.org/problems/eventual-safe-states/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=eventual-safe-states
+
+from typing import List
+
+class Solution:  
+    def dfs(self, visited, path, adj, node):
+        visited[node] = 1
+        path[node] = 1 
+        for adjNode in adj[node]:
+            if not visited[adjNode]:
+                if self.dfs(visited, path, adj, adjNode):
+                    return True 
+            elif path[adjNode]:
+                return True 
+        
+        path[node] = 0 
+    
+    def eventualSafeNodes(self, V : int, adj : List[List[int]]) -> List[int]:
+        visited = [0] * V
+        path = [0] * V 
+        
+        for i in range(V):
+            if not visited[i]:
+                self.dfs(visited, path, adj, i)
+        
+        res = [node for node in range(V) if path[node] == 0]
+        return res
+
+
+''' time complexity : O(V + 2E)
+    space complexity : O(V)
+'''
