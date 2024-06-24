@@ -1,0 +1,43 @@
+problem link1 : https://www.geeksforgeeks.org/problems/prerequisite-tasks/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=prerequisite-tasks
+problem link2 : https://www.geeksforgeeks.org/problems/course-schedule/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=course-schedule
+
+
+
+from collections import deque
+class Solution:
+    def findOrder(self, n, m, prerequisites):
+        adj = [[] for _ in range(n)]
+        for v, u in prerequisites:
+            adj[u].append(v)
+        
+        N = V = n
+        
+        indegree = [0] * V 
+        for u in range(V):
+            for v in adj[u]:
+                indegree[v] += 1
+        
+        q = deque([])
+        for i in range(V):
+            if indegree[i] == 0:
+                q.append(i)
+        
+        
+        res = []
+        while q:
+            node = q.popleft()
+            res.append(node)
+            
+            for adjNode in adj[node]:
+                indegree[adjNode] -= 1 
+                if not indegree[adjNode]:
+                    q.append(adjNode)
+        
+        if len(res) == N:
+            return res
+        return [] 
+
+
+''' time complexity : O(V + 2E)
+    space complexity : O(V) 
+'''        
