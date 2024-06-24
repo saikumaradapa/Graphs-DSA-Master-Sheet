@@ -1,5 +1,7 @@
 problem link : https://www.geeksforgeeks.org/problems/topological-sort/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=topological-sort
 
+####################################################################################################################################################################################################
+# DFS method
 
 class Solution:
     def dfs(self, node, visited, stack, adj):
@@ -23,3 +25,37 @@ class Solution:
 ''' time complexity : O(V + 2E)
     space complexity : O(V) 
 '''        
+
+
+
+####################################################################################################################################################################################################
+# Kahn's Algorithm with indegree     ||  BFS 
+
+from collections import deque
+class Solution:
+    
+    def topoSort(self, V, adj):
+        indegree = [0] * V 
+        for u in range(V):
+            for v in adj[u]:
+                indegree[v] += 1
+        
+        q = deque([])
+        for i in range(V):
+            if indegree[i] == 0:
+                q.append(i)
+        
+        
+        res = []
+        while q:
+            node = q.popleft()
+            res.append(node)
+            
+            for adjNode in adj[node]:
+                indegree[adjNode] -= 1 
+                if not indegree[adjNode]:
+                    q.append(adjNode)
+        
+        return res
+        
+        
