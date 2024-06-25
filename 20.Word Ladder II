@@ -1,0 +1,56 @@
+problem link : https://www.geeksforgeeks.org/problems/word-ladder-ii/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=word-ladder-ii
+
+
+
+from collections import deque
+
+class Solution:
+    def findSequences(self, startWord, targetWord, wordList):
+        wordSet = set(wordList)
+        q = deque([[startWord]])
+        
+        if startWord in wordSet:
+            wordSet.remove(startWord)
+        
+        minLen = None 
+        res = []
+        
+        while q:
+            n = len(q)
+            removeWords = set()
+            
+            for _ in range(n):
+                wordArr = q.popleft()
+                step = len(wordArr)
+                
+                if minLen and step > minLen:
+                    continue
+                
+                if wordArr[-1] == targetWord:
+                    res.append(wordArr.copy())
+                    minLen = step 
+                
+                word = list(wordArr[-1])
+                temp = word[:]
+                    
+                for i in range(len(word)):
+                    for j in range(26):
+                        temp[i] = chr(j + ord('a'))
+                        
+                        newWord = ''.join(temp)
+                        if newWord in wordSet:
+                            q.append(wordArr + [newWord])
+                            removeWords.add(newWord)
+                    temp = word[:]
+                    
+            for word in removeWords:
+                wordSet.remove(word)
+        
+        return res
+
+
+''' time complexity : O(N*(logN * M * 26))
+    space complexity : O(N * M)
+    N = length of wordList and M = |wordList[i]|
+'''
+
