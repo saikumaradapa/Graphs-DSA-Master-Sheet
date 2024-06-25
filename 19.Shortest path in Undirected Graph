@@ -8,26 +8,19 @@ class Solution:
             adj[u].append(v)
             adj[v].append(u)
         
-        
+        q = deque([src])
         dist = [float('inf') for _ in range(n)]
         dist[src] = 0
         
-        q = deque([src])
-        
         while q:
             node = q.popleft()
-            
-            for adjNode in adj[node]:
-                if dist[adjNode] > dist[node] + 1:
-                    q.append(adjNode)
-                    dist[adjNode] = dist[node] + 1
+            for curr in adj[node]:
+                if dist[curr] > dist[node] + 1:
+                    dist[curr] = dist[node] + 1
+                    q.append(curr)
         
-        res = [-1] * n
-        for i in range(n):
-            if dist[i] != float('inf'):
-                res[i] = dist[i]
-        
-        return res
+        res = [-1 if num == float('inf') else num for num in dist]
+        return res 
 
 
 ''' time complexity : O(V + 2E)
