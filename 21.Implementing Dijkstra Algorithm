@@ -1,0 +1,26 @@
+problem link : https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=implementing-dijkstra-set-1-adjacency-matrix
+
+from heapq import heapify, heappop, heappush
+class Solution:
+
+    def dijkstra(self, V, adj, S):
+        res = [float('inf')] * V
+        res[S] = 0 
+        
+        heap = [(0, S)] # dist, node
+        heapify(heap)
+        
+        while heap:
+            dist, node = heappop(heap)
+            for curr in adj[node]:
+                currDist = dist + curr[1]
+                
+                if currDist < res[curr[0]]:
+                    res[curr[0]] = currDist
+                    heappush(heap, (currDist, curr[0]))
+        
+        return res
+
+''' time complexity : O(E log V)
+    space complexity : O(V)
+'''
