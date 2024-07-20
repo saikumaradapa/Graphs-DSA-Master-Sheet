@@ -1,0 +1,32 @@
+Problem Link : https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=minimum-spanning-tree
+
+
+
+#User function Template for python3
+from heapq import heappush, heappop, heapify 
+class Solution:
+    
+    def spanningTree(self, V, adj):
+        heap = [(0, 0, -1)]   # wt, node, parent 
+        heapify(heap)
+        
+        # mst = []
+        visited = [0] * V 
+        res = 0
+        while heap :
+            wt, node, parent = heappop(heap)
+            if visited[node] == 0 :
+                visited[node] = 1
+                # if parent != -1 :
+                #     mst.append((parent, node))
+                res += wt 
+                for curr in adj[node] :
+                    if visited[curr[0]] == 0 :
+                        heappush(heap, (curr[1], curr[0], parent))
+        return res
+        
+        
+''' time complexity : O(E * logE)
+    space complexity : O(E)
+'''
+            
