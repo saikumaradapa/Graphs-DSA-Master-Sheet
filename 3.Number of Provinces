@@ -1,3 +1,6 @@
+problem link : https://www.geeksforgeeks.org/problems/number-of-provinces/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number_of_provinces
+
+
 class Solution:
     
     def dfs(self, node, visited, graph):
@@ -28,4 +31,53 @@ class Solution:
     space complexity : O(V)
 '''
 
-problem link : https://www.geeksforgeeks.org/problems/number-of-provinces/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number_of_provinces
+
+
+
+#################################################################################################################################################################################################
+# using DisJoint Sets 
+
+
+class DisjoinSet:
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.size = [1 for i in range(n)]
+        self.count = n 
+    
+    def findParent(self, node):
+        if self.parent[node] == node:
+            return node 
+        self.parent[node] = self.findParent(self.parent[node])
+        return self.parent[node]
+    
+    def unionBySize(self, u, v):
+        ulp_u = self.findParent(u)
+        ulp_v = self.findParent(v)
+        
+        if ulp_u == ulp_v:
+            return False 
+        
+        if self.size[ulp_u] <= self.size[ulp_v]:
+            self.parent[ulp_u] = ulp_v 
+            self.size[ulp_v] += self.size[ulp_u]
+        else:
+            self.parent[ulp_v] = ulp_u 
+            self.size[ulp_u] += self.size[ulp_v]
+            
+        self.count -= 1
+        return True 
+
+class Solution:
+    def numProvinces(self, adj, V):
+        DS = DisjoinSet(V)
+        
+        for i in range(V):
+            for j in range(V):
+                if adj[i][j] and i != j:
+                    DS.unionBySize(i, j)
+        
+        return DS.count 
+        
+''' time complexity : O(V^2 * 4 alpha)
+    space complexity : O(V)
+'''
