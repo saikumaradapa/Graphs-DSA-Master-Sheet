@@ -1,0 +1,49 @@
+Problem Link : https://www.geeksforgeeks.org/problems/connecting-the-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=connecting-the-graph
+
+# Number of Operations to Make Network Connected - DSU
+
+class DisjointSet:
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.size = [1 for i in range(n)]
+        self.count = n 
+    
+    def findParent(self, node):
+        if self.parent[node] == node:
+            return node 
+        self.parent[node] = self.findParent(self.parent[node])
+        return self.parent[node]
+    
+    def unionBySize(self, u, v):
+        ulp_u = self.findParent(u)
+        ulp_v = self.findParent(v)
+        
+        if ulp_u == ulp_v:
+            return False 
+        
+        if self.size[ulp_u] <= self.size[ulp_v]:
+            self.parent[ulp_u] = ulp_v 
+            self.size[ulp_v] += self.size[ulp_u]
+        else:
+            self.parent[ulp_v] = ulp_u 
+            self.size[ulp_u] += self.size[ulp_v]
+            
+        self.count -= 1
+        return True 
+
+class Solution:
+    def Solve(self, n, adj):
+        if len(adj) < n-1:
+            return -1 
+        
+        ds = DisjointSet(n)
+        for u, v in adj:
+            ds.unionBySize(u, v)
+        
+        return ds.count - 1
+
+        
+
+''' time complexity : O(E * 4 * alpha)
+    space complexity : O(V)
+'''        
