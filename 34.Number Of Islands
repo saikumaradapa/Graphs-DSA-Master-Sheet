@@ -1,0 +1,77 @@
+Problem Link : https://www.geeksforgeeks.org/problems/number-of-islands/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=number-of-islands
+
+# Online Queries of islands
+
+
+class DisjointSet:
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.size = [1 for i in range(n)]
+        self.count = n 
+    
+    def findParent(self, node):
+        if self.parent[node] == node:
+            return node 
+        self.parent[node] = self.findParent(self.parent[node])
+        return self.parent[node]
+    
+    def unionBySize(self, u, v):
+        ulp_u = self.findParent(u)
+        ulp_v = self.findParent(v)
+        
+        if ulp_u == ulp_v:
+            return False 
+        
+        if self.size[ulp_u] <= self.size[ulp_v]:
+            self.parent[ulp_u] = ulp_v 
+            self.size[ulp_v] += self.size[ulp_u]
+        else:
+            self.parent[ulp_v] = ulp_u 
+            self.size[ulp_u] += self.size[ulp_v]
+            
+        self.count -= 1
+        return True 
+
+
+from typing import List
+
+class Solution:
+    def getPosition(self, row, col, cols):
+        return row * cols + col
+    
+    def isValid(self, row, col, rows, cols):
+        return 0 <= row < rows and 0 <= col < cols
+    
+    def numOfIslands(self, rows: int, cols: int, operators: List[List[int]]) -> List[int]:
+        ds = DisjointSet(rows * cols)
+        visited = [[0] * cols for _ in range(rows)]
+        result = []
+        island_count = 0
+        
+        directions = [(0, -1), (-1, 0), (0, 1), (1, 0)]
+        
+        for row, col in operators:
+            if visited[row][col] == 1:
+                result.append(island_count)
+                continue
+            
+            visited[row][col] = 1
+            current_position = self.getPosition(row, col, cols)
+            island_count += 1
+            
+            for dr, dc in directions:
+                new_row, new_col = row + dr, col + dc
+                if self.isValid(new_row, new_col, rows, cols) and visited[new_row][new_col] == 1:
+                    adjacent_position = self.getPosition(new_row, new_col, cols)
+                    
+                    if ds.unionBySize(current_position, adjacent_position):
+                        island_count -= 1
+            
+            result.append(island_count)
+        
+        return result
+
+            
+''' time complexity : O(n * m * 4 * alpha)
+    space complexity : O(n * m)
+'''   
