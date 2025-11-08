@@ -24,7 +24,6 @@ class Solution:
             if not visited[i]:
                 cnt += 1
                 self.dfs(i, visited, graph)
-        
         return cnt 
 
 ''' time complexity : O(V + 2E)
