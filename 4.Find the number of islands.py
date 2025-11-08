@@ -1,0 +1,29 @@
+problem link : https://www.geeksforgeeks.org/problems/find-the-number-of-islands/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=find_the_number_of_islands
+
+class Solution:
+    
+    def numIslands(self,grid):
+        n, m = len(grid), len(grid[0])
+        visited = [[0 for j in range(m)]  for i in range(n)]
+        cnt = 0
+        
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j] =="L" and not visited[i][j]:
+                    cnt += 1
+                    self.dfs(i, j, visited, grid, n, m)
+        return cnt 
+        
+    def dfs(self, row, col, visited, grid, n, m):
+        visited[row][col] = 1
+        
+        for r in range(-1, 2):
+            for c in range(-1, 2):
+                newRow, newCol = row + r, col + c 
+                if 0<= newRow < n and 0<= newCol < m and grid[newRow][newCol] =="L" and not visited[newRow][newCol]:
+                    self.dfs(newRow, newCol, visited, grid, n, m)
+    
+
+''' time complexity : O(n^2)
+    space complexity : O(n^2)
+'''
