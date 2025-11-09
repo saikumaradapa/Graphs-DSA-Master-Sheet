@@ -1,3 +1,35 @@
+problem link : https://www.geeksforgeeks.org/problems/replace-os-with-xs0052/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=replace-os-with-xs
+
+class Solution:
+    def fill(self, grid):
+        n, m = len(grid), len(grid[0])
+        visited = [[0] * m for _ in range(n)]
+
+        for i in range(n):
+            for j in range(m):
+                if (i == 0 or i == n-1 or j == 0 or j == m-1) and grid[i][j] == "O" and not visited[i][j]:
+                    self.dfs(i, j, grid, visited, n, m)
+        
+        for i in range(n):
+            for j in range(m):
+                if not visited[i][j] and grid[i][j] == "O":
+                    grid[i][j] = "X"
+        
+    def dfs(self, i, j, grid, visited, n, m):
+        if 0<=i<n and 0<=j<m and not visited[i][j] and grid[i][j] == "O": 
+            visited[i][j] = 1
+            self.dfs(i-1, j, grid, visited, n, m)
+            self.dfs(i, j-1, grid, visited, n, m)
+            self.dfs(i+1, j, grid, visited, n, m)
+            self.dfs(i, j+1, grid, visited, n, m)
+
+''' DFS
+    time complexity : O(n*m)
+    space complexity : O(n*m)
+'''
+
+#########################################################################################################################################################
+
 
 from collections import deque
 class Solution:
@@ -44,8 +76,8 @@ class Solution:
 
         
 
-''' time complexity : O(n*m)
+''' BFS
+    time complexity : O(n*m)
     space complexity : O(n*m)
 '''
 
-problem link : https://www.geeksforgeeks.org/problems/replace-os-with-xs0052/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=replace-os-with-xs
