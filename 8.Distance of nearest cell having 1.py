@@ -1,7 +1,10 @@
-from collections import deque
-class Solution:
+Problem Link1 : https://www.geeksforgeeks.org/problems/distance-of-nearest-cell-having-1-1587115620/1
+Problem Link2 : https://leetcode.com/problems/01-matrix/description/
 
+from collections import deque 
+class Solution:
 	def nearest(self, grid):
+		n, m = len(grid), len(grid[0])
 	    n, m = len(grid), len(grid[0])
         visited = [[-1] * m for _ in range(n)] 
         
@@ -31,6 +34,7 @@ class Solution:
         if 0<= r < n and 0<= c < m: return True 
 
             
-''' time complexity : O(n*m)
+''' BFS 
+    time complexity : O(n*m)
     space complexity : O(n*m)
-'''       
+'''  
