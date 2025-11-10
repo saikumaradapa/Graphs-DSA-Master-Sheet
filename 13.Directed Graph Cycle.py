@@ -1,9 +1,21 @@
 problem link : https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=detect-cycle-in-a-directed-graph
 
-
-from typing import List
-
 class Solution:
+    def isCyclic(self, V, edges):
+        visited = [0] * V 
+        path = [0] * V 
+        graph = [[] for _ in range(V)]
+        
+        for u, v in edges:
+            graph[u].append(v)
+        
+        for node in range(V):
+            if not visited[node]:
+                if self.dfs(visited, graph, node, path):
+                    return True 
+        return False 
+
+
     def dfs(self, visited, adj, node, path):
         visited[node] = 1
         path[node] = 1 
@@ -18,18 +30,7 @@ class Solution:
         path[node] = 0 
         return False 
 
-    def isCyclic(self, V : int , adj : List[List[int]]) -> bool :
-        visited = [0] * V 
-        path = [0] * V 
-        
-        for i in range(V):
-            if not visited[i]:
-                if self.dfs(visited, adj, i, path):
-                    return True 
-        
-        return False 
-
-
-''' time complexity : O(V + 2E)
-    space complexity : O(V)
+''' DFS
+    time complexity : O(V + E)
+    space complexity : O(2V)
 '''
