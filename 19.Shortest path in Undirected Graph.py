@@ -2,14 +2,9 @@ problem link : https://www.geeksforgeeks.org/problems/shortest-path-in-undirecte
 
 from collections import deque
 class Solution:
-    def shortestPath(self, edges, n, m, src):
-        adj = [[] for _ in range(n)]
-        for u, v in edges:
-            adj[u].append(v)
-            adj[v].append(u)
-        
+    def shortestPath(self, adj, src):
         q = deque([src])
-        dist = [float('inf') for _ in range(n)]
+        dist = [float('inf') for _ in range(len(adj))]
         dist[src] = 0
         
         while q:
@@ -23,6 +18,7 @@ class Solution:
         return res 
 
 
-''' time complexity : O(V + 2E)
+''' BFS
+    time complexity : O(V + E)
     space complexity : O(V)
 '''
