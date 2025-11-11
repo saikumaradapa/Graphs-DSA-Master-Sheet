@@ -1,7 +1,40 @@
 problem link1 : https://www.geeksforgeeks.org/problems/prerequisite-tasks/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=prerequisite-tasks
 problem link2 : https://www.geeksforgeeks.org/problems/course-schedule/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=course-schedule
 
+class Solution:
+    def findOrder(self, n, prerequisites):
+        graph = [[] for _ in range(n)]
+        visited = [-1] * n
+        
+        for u, v in prerequisites:
+            graph[u].append(v)
+        
+        res = []
+        for node in range(n):
+            if visited[node] == -1:
+                if self.dfs(node, graph, visited, res):
+                    return []
+        return res
+        
+    def dfs(self, node, graph, visited, res):
+        visited[node] = 2
+        for adjNode in graph[node]:
+            if visited[adjNode] == -1:
+                if self.dfs(adjNode, graph, visited, res):
+                    return True
+            elif visited[adjNode] == 2:
+                return True
+                
+        visited[node] = 1
+        res.append(node)
+        return False
+        
+''' DFS
+    time complexity : O(V + E)
+    space complexity : O(V) 
+'''        
 
+########################################################################################################################################################
 
 from collections import deque
 class Solution:
@@ -37,7 +70,7 @@ class Solution:
             return res
         return [] 
 
-
-''' time complexity : O(V + 2E)
+''' BFS | toposort 
+    time complexity : O(V + 2E)
     space complexity : O(V) 
-'''        
+'''      
