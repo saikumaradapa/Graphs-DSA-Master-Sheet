@@ -1,38 +1,29 @@
 problem link : https://www.geeksforgeeks.org/problems/word-ladder/1?utm_source=youtube&utm_medium=collab_striver_ytdescription&utm_campaign=word-ladder
 
 
-
 from collections import deque
 class Solution:
-	def wordLadderLength(self, startWord, targetWord, wordList):
+    def wordLadderLength(self, startWord, targetWord, wordList):
+        wordList = set(wordList)  # Ensure O(1) lookup
         if targetWord not in wordList:
-            return 0 
-            
+            return 0
+        
         q = deque([(startWord, 1)])
-        visited = set()
+        visited = set([startWord])
         
         while q:
             w, step = q.popleft()
-            
             if w == targetWord:
-                return step 
-            
-            visited.add(w)
-            
-            word = [ch for ch in w]
-            for i in range(len(word)):
-                temp = word[:]
+                return step
+            for i in range(len(w)):
                 for j in range(ord('a'), ord('z') + 1):
-                    temp[i] = chr(j)
-                    tempWord = ''.join(temp)
-                    
+                    tempWord = w[:i] + chr(j) + w[i+1:]
                     if tempWord in wordList and tempWord not in visited:
                         q.append((tempWord, step+1))
                         visited.add(tempWord)
-                        
-        return 0 
-
-
-''' time complexity : O( N * word.length * 26)        
+        return 0
+        
+''' BFS 
+    time complexity : O( N * word.length * 26)        
     space complexity : O(n)
-''''
+'''
