@@ -48,9 +48,55 @@ class Solution:
         
         return res
 
+''' time complexity : O(L * N * M * 26) - L number of paths
+    space complexity : O(L * N * M)
+'''
 
-''' time complexity : O(N*(logN * M * 26))
-    space complexity : O(N * M)
-    N = length of wordList and M = |wordList[i]|
+
+
+
+######################################################################################################################################################
+
+# for large value n
+
+def findSequences(startWord, targetWord, wordList):
+    wordList = set(wordList)
+    if targetWord not in wordList:
+        return []
+
+    distances = {startWord: 0}
+    graph = collections.defaultdict(list)
+    queue = deque([startWord])
+
+    while queue:
+        word = queue.popleft()
+        for i in range(len(word)):
+            for c in 'abcdefghijklmnopqrstuvwxyz':
+                next_word = word[:i] + c + word[i+1:]
+                if next_word in wordList:
+                    graph[word].append(next_word)
+                    if next_word not in distances:
+                        distances[next_word] = distances[word] + 1
+                        queue.append(next_word)
+
+    res = []
+    path = [startWord]
+
+    def dfs(word):
+        if word == targetWord:
+            res.append(path[:])
+            return
+        for next_word in graph[word]:
+            if distances.get(next_word, float('inf')) == distances[word] + 1:
+                path.append(next_word)
+                dfs(next_word)
+                path.pop()
+
+    dfs(startWord)
+    return res
+
+ 
+''' time complexity : O(N * M * 26 + S * N) 
+    space complexity : O(N^2 + S * N * M)
 '''
 
