@@ -3,8 +3,6 @@ problem link : https://www.geeksforgeeks.org/problems/path-with-minimum-effort/1
 
 from heapq import heapify, heappush, heappop
 from typing import List
-
-
 class Solution:
     def MinimumEffort(self, rows : int, columns : int, heights : List[List[int]]) -> int:
         n, m = rows, columns 
