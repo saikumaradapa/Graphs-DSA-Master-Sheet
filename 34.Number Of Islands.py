@@ -68,7 +68,6 @@ class Solution:
                         island_count -= 1
             
             result.append(island_count)
-        
         return result
 
             
