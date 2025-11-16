@@ -44,11 +44,12 @@ class DisjointSet:
     def __init__(self, n):
         self.parent = [i for i in range(n)]
         self.size = [1 for i in range(n)]
-        self.count = n 
+        self.count = n
     
     def findParent(self, node):
         if self.parent[node] == node:
-            return node 
+            return node
+        
         self.parent[node] = self.findParent(self.parent[node])
         return self.parent[node]
     
@@ -57,32 +58,28 @@ class DisjointSet:
         ulp_v = self.findParent(v)
         
         if ulp_u == ulp_v:
-            return False 
+            return False
         
         if self.size[ulp_u] <= self.size[ulp_v]:
-            self.parent[ulp_u] = ulp_v 
+            self.parent[ulp_u] = ulp_v
             self.size[ulp_v] += self.size[ulp_u]
         else:
-            self.parent[ulp_v] = ulp_u 
+            self.parent[ulp_v] = ulp_u
             self.size[ulp_u] += self.size[ulp_v]
-            
+        
         self.count -= 1
-        return True 
+        return True
+
 class Solution:
-    
-    def spanningTree(self, V, adj):
-        edges = []
-        for u in range(V):
-            for v, wt in adj[u]:
-                edges.append((u, v, wt))
-        
+    def spanningTree(self, V, edges):
         edges.sort(key = lambda x:x[2])
-        DS = DisjointSet(V)
-        res = 0 
         
-        for u, v, wt in edges:
-            res += DS.unionBySize(u, v) * wt
-        return res 
+        DS = DisjointSet(V)
+        sum = 0
+        
+        for u, v, w in edges:
+            sum += DS.unionBySize(u, v) * w
+        return sum 
 
 ''' time complexity : O(E * logE) + O(E * 4 * alpha)
     space complexity : O(E)
