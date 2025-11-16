@@ -17,7 +17,6 @@ class Solution:
                 if newDist < dist[neighbor]:
                     dist[neighbor] = newDist
                     heappush(heap, (newDist, neighbor))
-        
         return dist
     
     def findCity(self, n: int, m: int, edges: List[List[int]], distanceThreshold: int) -> int:
@@ -41,5 +40,41 @@ class Solution:
 
         
 ''' time complexity : O(n * m logn)
+    space complexity : O(n ^ 2)
+'''
+
+#######################################################################################################################################################
+
+from typing import List
+class Solution:
+    def findCity(self, n : int, m : int, edges : List[List[int]], distanceThreshold : int) -> int:
+        dist = [[0 if i == j else float("inf") for j in range(n)] for i in range(n)]
+        for u, v, w in edges:
+            dist[u][v] = w
+            dist[v][u] = w 
+        
+        for via in range(n):
+            for i in range(n):
+                for j in range(n):
+                    
+                    if dist[i][via] == float("inf") or dist[via][j] == float("inf"):
+                        continue 
+                    if dist[i][via] + dist[via][j] < dist[i][j]:   
+                        dist[i][j] = dist[i][via] + dist[via][j]
+        
+        cityCnt = float("inf")
+        cityNo = -1
+        for i in range(n):
+            cnt = 0
+            for j in range(n):
+                if dist[i][j] <= distanceThreshold:
+                    cnt += 1
+            if cnt <= cityCnt:
+                cityCnt = cnt
+                cityNo = i
+        
+        return cityNo
+
+''' time complexity : O(n ^ 3)
     space complexity : O(n ^ 2)
 '''
