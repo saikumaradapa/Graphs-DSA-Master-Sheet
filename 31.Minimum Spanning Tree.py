@@ -5,28 +5,32 @@ Minimum Spanning Tree
 ###################################################################################################################################################################
 # Prim's Algorithms with Priority Queue
 
-from heapq import heappush, heappop, heapify 
+from heapq import heapify, heappush, heappop
 class Solution:
-    
-    def spanningTree(self, V, adj):
-        heap = [(0, 0, -1)]   # wt, node, parent 
+    def spanningTree(self, V, edges):
+        graph = [[] for _ in range(V)]
+        for u, v, w in edges:
+            graph[u].append((v, w))
+            graph[v].append((u, w))
+        
+        visited = [0] * V
+        heap = ([(0, 0, -1)]) # cost, node, parent 
         heapify(heap)
+        mst = []
+        sum = 0
         
-        # mst = []
-        visited = [0] * V 
-        res = 0
-        while heap :
-            wt, node, parent = heappop(heap)
-            if visited[node] == 0 :
+        while heap:
+            cost, node, parent = heappop(heap)
+            if visited[node] == 0:
                 visited[node] = 1
-                # if parent != -1 :
-                #     mst.append((parent, node))
-                res += wt 
-                for curr in adj[node] :
-                    if visited[curr[0]] == 0 :
-                        heappush(heap, (curr[1], curr[0], parent))
-        return res
-        
+                sum += cost
+                if parent != -1:
+                    mst.append((parent, node))
+                
+                for curr in graph[node]:
+                    heappush(heap, (curr[1], curr[0], node))
+        # print(mst)
+        return sum
         
 ''' time complexity : O(E * logE)
     space complexity : O(E)
