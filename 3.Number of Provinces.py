@@ -30,10 +30,42 @@ class Solution:
     space complexity : O(V)
 '''
 
+################################################################################################################################################
+
+class Solution:
+    def dfs(self, node, visited, adj, V):
+        visited[node] = 1
+        for neighbor in range(V):
+            # neighbor connected AND not yet visited
+            if adj[node][neighbor] and not visited[neighbor]:
+                self.dfs(neighbor, visited, adj, V)
+
+    def numProvinces(self, adj, V):
+        """
+        Count connected components directly on the adjacency matrix.
+
+        Time:  O(V^2) — every DFS scans a full row of V entries; across all
+                        nodes that's V rows x V columns = V^2.
+        Space: O(V)   — visited array + recursion stack (O(V) worst case).
+
+        A province = one connected component. Start a DFS from each unvisited
+        node; each fresh DFS marks one whole component, so the number of DFS
+        launches is the province count.
+        """
+        visited = [0] * V
+        count = 0
+
+        for i in range(V):
+            if not visited[i]:
+                count += 1
+                self.dfs(i, visited, adj, V)
+
+        return count
 
 
 
-#################################################################################################################################################################################################
+
+################################################################################################################################################
 # using DisJoint Sets 
 
 
